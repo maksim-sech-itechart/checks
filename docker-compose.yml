@@ -21,14 +21,26 @@ services:
     networks:
       - monitoring
     depends_on:
-      - elalstic
+      - elastic
   #TODO: Create own image
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
     container_name: elastic
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ELASTIC_PASSWORD=stR0nGPasword!"
+      - "xpack.security.authc.api_key.enabled=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
     volumes:
       - elastic-data:/usr/share/elasticsearch/data
     networks:
@@ -41,10 +53,13 @@ services:
       - 5601:5601
     depends_on:
       - elastic
-    environment:
-      ELASTICSEARCH_HOSTS: 'http://elastic:9200'
+    # environment:
+      # ELASTICSEARCH_HOSTS: 'http://elastic:9200'
       #TODO use this one https://www.elastic.co/guide/en/kibana/current/docker.html#environment-variable-config
       # - elasticsearch.hosts=elastic
+    volumes:
+      - ./elastic/kibana-config:/usr/share/kibana/config
+      - kibana-data:/usr/share/kibana/data
     networks:
       - monitoring
   mssql:
@@ -67,4 +82,5 @@ networks:
 
 volumes:
   elastic-data:
+  kibana-data:
   mssql:
