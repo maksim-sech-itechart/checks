@@ -66,15 +66,15 @@ services:
       - monitoring
   metricbeat:
     container_name: metricbeat
-    image: docker.elastic.co/beats/metricbeat:7.17.0
-    command: chmod 644 /usr/share/metricbeat/metricbeat.yml
+    build:
+      context: ./elastic
+      dockerfile: Dockerfile-metricbeat
     depends_on:
       - elastic
     volumes:
-      - ./elastic/metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - 'MSSQL_PASSWORD=sa_Password!123'
-      - 'strict.perms=false'
     networks:
       - monitoring
   mssql:
