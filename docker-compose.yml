@@ -18,6 +18,8 @@ services:
       context: ./elastic
       dockerfile: Dockerfile-apm
     image: maksim/apm
+    environment:
+      - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
     networks:
       - monitoring
     depends_on:
@@ -30,7 +32,7 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "ELASTIC_PASSWORD=stR0nGPasword!"
+      - "ELASTIC_PASSWORD=$ELASTIC_PASSWORD"
       - "xpack.security.authc.api_key.enabled=true"
     ulimits:
       memlock:
@@ -55,7 +57,8 @@ services:
       - elastic
       - apm
       - metricbeat
-    # environment:
+    environment:
+      - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
       # ELASTICSEARCH_HOSTS: 'http://elastic:9200'
       #TODO use this one https://www.elastic.co/guide/en/kibana/current/docker.html#environment-variable-config
       # - elasticsearch.hosts=elastic
@@ -75,7 +78,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - 'MSSQL_PASSWORD=sa_Password!123'
+      - 'MSSQL_PASSWORD=$MSSQL_PASSWORD'
+      - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
     networks:
       - monitoring
   mssql:
@@ -86,7 +90,7 @@ services:
     environment:
       - 'TZ=Europe/Minsk'
       - 'ACCEPT_EULA=Y'
-      - 'MSSQL_SA_PASSWORD=sa_Password!123'
+      - 'MSSQL_SA_PASSWORD=$MSSQL_PASSWORD'
     volumes:
       - mssql:/var/opt/mssql
     networks:

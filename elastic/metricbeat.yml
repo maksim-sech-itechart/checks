@@ -30,6 +30,14 @@ metricbeat.modules:
   password: ${MSSQL_PASSWORD}
   period: 10s
   enabled: true
+- module: elasticsearch
+  metricsets:
+    - node
+    - node_stats
+  period: 10s
+  hosts: ["http://elastic:9200"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
 
 processors:
   - add_cloud_metadata: ~
