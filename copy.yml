@@ -1,0 +1,57 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: ./web-api-lvl-two
+      dockerfile: Dockerfile
+    image: maksim/web-api-lvl-two
+    ports:
+      - "80:80"
+    networks:
+      - monitoring
+    depends_on:4
+      - elastic
+  apm:
+    container_name: apm
+    build:
+      context: ./elastic
+      dockerfile: Dockerfile-apm
+    image: maksim/apm
+    networks:
+      - monitoring
+    depends_on:
+      - elastic
+  #TODO: Create own image
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: elastic
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    networks:
+      - monitoring
+  #TODO: Create own image
+  kibana:
+    container_name: kibana
+    build:
+      context: ./elastic
+      dockerfile: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elastic
+    # environment:
+    #   ELASTICSEARCH_HOSTS: 'http://elastic:9200'
+    #   #TODO use this one https://www.elastic.co/guide/en/kibana/current/docker.html#environment-variable-config
+    #   # - elasticsearch.hosts=elastic
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  elastic-data:
