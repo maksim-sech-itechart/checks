@@ -71,6 +71,7 @@ services:
       dockerfile: Dockerfile-metricbeat
     depends_on:
       - elastic
+      - mssql
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
