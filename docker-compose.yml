@@ -59,9 +59,6 @@ services:
       - metricbeat
     environment:
       - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
-      # ELASTICSEARCH_HOSTS: 'http://elastic:9200'
-      #TODO use this one https://www.elastic.co/guide/en/kibana/current/docker.html#environment-variable-config
-      # - elasticsearch.hosts=elastic
     volumes:
       - ./elastic/kibana-config:/usr/share/kibana/config
       - kibana-data:/usr/share/kibana/data
@@ -79,6 +76,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - 'MSSQL_PASSWORD=$MSSQL_PASSWORD'
+      - 'ELASTIC_USER=$ELASTIC_USER'
       - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
     networks:
       - monitoring

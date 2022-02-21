@@ -43,6 +43,6 @@ processors:
   - add_cloud_metadata: ~
 
 output.elasticsearch:
-  hosts: '${ELASTICSEARCH_HOSTS:elastic:9200}'
-  username: '${ELASTICSEARCH_USERNAME:elastic}'
-  password: '${ELASTICSEARCH_PASSWORD:stR0nGPasword!}'
+  hosts: 'elastic:9200'
+  username: '${ELASTIC_USER}'
+  password: '${ELASTIC_PASSWORD}'
