@@ -6,6 +6,13 @@ apm-server:
   # Defines the host and port the server is listening on. Use "unix:/path/to.sock" to listen on a unix domain socket.
   host: "0.0.0.0:8200"
 
+  #kibana config
+  kibana:
+    enabled: true
+    host: http://kibana:5601
+    username: elastic
+    password: "${ELASTIC_PASSWORD}"
+
   # Agent authorization configuration. If no methods are defined, all requests will be allowed.
   #auth:
     # Agent authorization using Elasticsearch API Keys.

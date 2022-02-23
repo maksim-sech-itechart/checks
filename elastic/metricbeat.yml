@@ -32,12 +32,29 @@ metricbeat.modules:
   enabled: true
 - module: elasticsearch
   metricsets:
-    - node
+    - ccr
+    - cluster_stats
+    - enrich
+    - index
+    - index_recovery
+    - index_summary
+    - ml_job
     - node_stats
   period: 10s
   hosts: ["http://elastic:9200"]
   username: "elastic"
   password: "${ELASTIC_PASSWORD}"
+  xpack.enabled: true
+- module: kibana
+  metricsets:
+    - status
+  period: 10s
+  hosts: ["kibana:5601"]
+  basepath: ""
+  enabled: true
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+  xpack.enabled: true
 
 processors:
   - add_cloud_metadata: ~
