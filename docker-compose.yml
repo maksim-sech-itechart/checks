@@ -10,7 +10,7 @@ services:
     networks:
       - monitoring
     depends_on:
-      - elalstic
+      - elastic
       - mssql
   apm:
     container_name: apm
