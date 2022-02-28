@@ -1,4 +1,7 @@
 .dockerignore
+Dockerfile*
+**/bin/
+**/obj/
+**/out/
 .idea
-*/bin
-*/obj
+.vs

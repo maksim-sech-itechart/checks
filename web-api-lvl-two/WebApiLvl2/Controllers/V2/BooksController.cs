@@ -22,7 +22,8 @@ public class BooksController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyCollection<Book>))]
-    public ActionResult<IReadOnlyCollection<Book>> GetAll() => Ok(_bookRepository.GetAll());
+    public ActionResult<IReadOnlyCollection<Book>> GetAll(Guid? authorId = null) =>
+        Ok(_bookRepository.GetAll(authorId));
 
     [HttpGet]
     [Route("{id:guid}")]
@@ -37,7 +38,7 @@ public class BooksController : ControllerBase
             return NotFound();
         }
 
-        return book;
+        return Ok(book);
     }
 
     [HttpPost]

@@ -37,7 +37,7 @@ public class BooksController : ControllerBase
             return NotFound();
         }
 
-        return book;
+        return Ok(book);
     }
 
     [HttpPost]

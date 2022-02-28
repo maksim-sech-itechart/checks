@@ -2,8 +2,6 @@
 using WebApiLvl2.Models;
 
 
-// ReSharper disable MemberCanBeMadeStatic.Global
-
 namespace WebApiLvl2.Repositories;
 
 public class AuthorRepository

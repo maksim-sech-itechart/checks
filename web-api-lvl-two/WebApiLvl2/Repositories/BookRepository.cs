@@ -2,8 +2,6 @@
 using WebApiLvl2.Models;
 
 
-// ReSharper disable MemberCanBeMadeStatic.Global
-
 namespace WebApiLvl2.Repositories;
 
 public class BookRepository
@@ -14,7 +12,7 @@ public class BookRepository
     public BookRepository(LuckHelper luckHelper) => _luckHelper = luckHelper;
 
 
-    public IReadOnlyCollection<Book> GetAll() => new[]
+    public IReadOnlyCollection<Book> GetAll(Guid? authorId = null) => new[]
     {
         new Book
         {
@@ -42,7 +40,7 @@ public class BookRepository
         },
     };
 
-    public Book Get(Guid id)
+    public Book? Get(Guid id)
     {
         if (_luckHelper.Lucky)
         {
