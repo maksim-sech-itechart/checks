@@ -1,10 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-
-namespace WebApiLvl2.SchemaFilters;
+﻿namespace WebApiLvl2.SchemaFilters;
 
 [UsedImplicitly]
 public class EnumSchemaFilter : ISchemaFilter

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-
-namespace WebApiLvl2.Models;
+﻿namespace WebApiLvl2.Models;
 
 public class Book
 {

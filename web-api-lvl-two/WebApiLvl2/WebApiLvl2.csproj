@@ -4,9 +4,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-        <UserSecretsId>f62598a6-e929-4ef9-ab9f-ac5c8f31d40a</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,9 +17,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Remove=".dockerignore" />
-    </ItemGroup>
-
 </Project>

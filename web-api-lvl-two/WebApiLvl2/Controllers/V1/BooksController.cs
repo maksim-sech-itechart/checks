@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApiLvl2.Constants;
-using WebApiLvl2.Helpers;
-using WebApiLvl2.Models;
-using WebApiLvl2.Repositories;
-
-
-namespace WebApiLvl2.Controllers.V1;
+﻿namespace WebApiLvl2.Controllers.V1;
 
 [ApiController]
 [Route("api/v{apiVersion:apiVersion}/[controller]")]
@@ -41,6 +34,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Author))]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public ActionResult<Book> Create(Book book)

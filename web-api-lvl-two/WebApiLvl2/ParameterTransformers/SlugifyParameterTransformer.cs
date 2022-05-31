@@ -1,7 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-
-namespace WebApiLvl2.ParameterTransformers;
+﻿namespace WebApiLvl2.ParameterTransformers;
 
 public class SlugifyParameterTransformer : IOutboundParameterTransformer
 {

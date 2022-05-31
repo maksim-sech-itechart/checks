@@ -1,21 +1,3 @@
-using System.Text.Json.Serialization;
-using Elastic.Apm.AspNetCore.DiagnosticListener;
-using Elastic.Apm.DiagnosticSource;
-using Elastic.Apm.EntityFrameworkCore;
-using Elastic.Apm.Extensions.Hosting;
-using Elastic.Apm.SqlClient;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.OpenApi.Models;
-using WebApiLvl2.Constants;
-using WebApiLvl2.Helpers;
-using WebApiLvl2.ParameterTransformers;
-using WebApiLvl2.Repositories;
-using WebApiLvl2.SchemaFilters;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 #region Dependencies
@@ -35,9 +17,17 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
-    options.ApiVersionReader = new HeaderApiVersionReader("X-Api-Version");
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new HeaderApiVersionReader("X-Api-Version"),
+        new UrlSegmentApiVersionReader(),
+        new QueryStringApiVersionReader("api-version")
+    );
 });
-builder.Services.AddVersionedApiExplorer(o => o.SubstituteApiVersionInUrl = true);
+builder.Services.AddVersionedApiExplorer(o =>
+{
+    o.SubstitutionFormat = "'v'VVV";
+    o.SubstituteApiVersionInUrl = true;
+});
 builder.Services.AddSwaggerGen(o =>
 {
     o.SchemaFilter<EnumSchemaFilter>();
@@ -56,11 +46,22 @@ builder.Services.AddSwaggerGen(o =>
     }
 });
 
-builder.Services.AddCors(o =>
-    o.AddPolicy(
-        CorsConstant.LocalhostOnly,
-        b => b.WithOrigins("http://localhost")
-    )
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(
+            CorsConstant.LocalhostOnly,
+            b => b.WithOrigins("http://localhost")
+        );
+
+        options.AddPolicy(
+            CorsConstant.Any,
+            b => b
+                .WithOrigins("*")
+                .WithMethods("*")
+        );
+
+        options.DefaultPolicyName = CorsConstant.Any;
+    }
 );
 
 
@@ -89,6 +90,13 @@ app.UseSwaggerUI(o =>
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app
+    .MapGet(
+        "/corsTest",
+        async context => await context.Response.WriteAsync("CORS test")
+    )
+    .RequireCors(CorsConstant.LocalhostOnly);
 
 app.MapControllers();
 

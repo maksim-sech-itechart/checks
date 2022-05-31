@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApiLvl2.Constants;
-using WebApiLvl2.Helpers;
-using WebApiLvl2.Models;
-using WebApiLvl2.Repositories;
-
-
-namespace WebApiLvl2.Controllers;
+﻿namespace WebApiLvl2.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[DisableCors]
 public class AuthorsController : ControllerBase
 {
     private readonly AuthorRepository _authorRepository;
@@ -58,6 +52,7 @@ public class AuthorsController : ControllerBase
 
     [HttpPost]
     [ApiVersionNeutral]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Author))]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public ActionResult<Author> Create(Author author)

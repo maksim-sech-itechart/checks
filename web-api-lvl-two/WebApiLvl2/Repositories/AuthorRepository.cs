@@ -1,8 +1,4 @@
-﻿using WebApiLvl2.Helpers;
-using WebApiLvl2.Models;
-
-
-namespace WebApiLvl2.Repositories;
+﻿namespace WebApiLvl2.Repositories;
 
 public class AuthorRepository
 {
